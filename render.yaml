@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: PixelMind-AI
+    runtime: java
+    buildCommand: ./mvnw clean install -DskipTests
+    startCommand: java -jar target/*.jar
+    envVars:
+      - key: GCP_API_KEY
+        sync: false
+      - key: JAVA_VERSION
+        value: 17
