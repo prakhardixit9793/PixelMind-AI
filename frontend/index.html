@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PixelMind AI - Generate stunning images, chat with AI, and create recipes using cutting-edge artificial intelligence powered by Google Gemini.">
+    <title>PixelMind AI — AI Image Generator & Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow bg-glow-1"></div>
+    <div class="bg-glow bg-glow-2"></div>
+    <div class="bg-glow bg-glow-3"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo" id="nav-logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">PixelMind<span class="logo-accent">AI</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#image-section" class="nav-link active" data-tab="image" id="nav-image">Image Gen</a>
+                <a href="#chat-section" class="nav-link" data-tab="chat" id="nav-chat">AI Chat</a>
+                <a href="#recipe-section" class="nav-link" data-tab="recipe" id="nav-recipe">Recipe Creator</a>
+            </div>
+            <div class="nav-status" id="nav-status">
+                <span class="status-dot"></span>
+                <span class="status-text">Online</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero">
+        <div class="hero-content">
+            <div class="hero-badge" id="hero-badge">
+                <span class="badge-pulse"></span>
+                Powered by Google Gemini
+            </div>
+            <h1 id="hero-title">
+                Create anything<br>
+                with <span class="gradient-text">PixelMind AI</span>
+            </h1>
+            <p class="hero-subtitle" id="hero-subtitle">
+                Generate stunning images, have intelligent conversations, and craft delicious recipes — all powered by cutting-edge AI.
+            </p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" id="hero-cta" onclick="scrollToSection('image-section')">
+                    Start Creating
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button class="btn btn-ghost" id="hero-secondary" onclick="scrollToSection('chat-section')">
+                    Try AI Chat
+                </button>
+            </div>
+        </div>
+        <div class="hero-visual" id="hero-visual">
+            <div class="hero-card hero-card-1">
+                <div class="card-shimmer"></div>
+                <span>🎨</span> Image Generation
+            </div>
+            <div class="hero-card hero-card-2">
+                <div class="card-shimmer"></div>
+                <span>💬</span> AI Chat
+            </div>
+            <div class="hero-card hero-card-3">
+                <div class="card-shimmer"></div>
+                <span>🍳</span> Recipe Creator
+            </div>
+        </div>
+    </header>
+
+    <!-- Image Generation Section -->
+    <section id="image-section" class="section">
+        <div class="section-header">
+            <span class="section-tag">01 — Image Generation</span>
+            <h2 class="section-title">Turn words into <span class="gradient-text">visuals</span></h2>
+            <p class="section-desc">Describe any image you can imagine and watch AI bring it to life in seconds.</p>
+        </div>
+
+        <div class="tool-card" id="image-tool-card">
+            <div class="tool-input-group">
+                <div class="input-wrapper">
+                    <input type="text" id="image-prompt" class="tool-input" placeholder="Describe the image you want to create..." autocomplete="off">
+                    <button class="input-btn" id="generate-image-btn" onclick="generateImage()">
+                        <span class="btn-text">Generate</span>
+                        <span class="btn-loader" id="image-loader"></span>
+                    </button>
+                </div>
+                <div class="input-options">
+                    <div class="option-group">
+                        <label class="option-label">Size</label>
+                        <select id="image-size" class="option-select">
+                            <option value="1024">1024 × 1024</option>
+                            <option value="512">512 × 512</option>
+                            <option value="256">256 × 256</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-result" id="image-result">
+                <div class="empty-state" id="image-empty">
+                    <div class="empty-icon">🖼️</div>
+                    <p>Your generated image will appear here</p>
+                    <span class="empty-hint">Try: "A futuristic city at sunset with flying cars"</span>
+                </div>
+                <div class="image-display" id="image-display" style="display:none;">
+                    <img id="generated-image" alt="AI Generated Image">
+                    <div class="image-overlay">
+                        <button class="overlay-btn" id="download-btn" onclick="downloadImage()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Section -->
+    <section id="chat-section" class="section">
+        <div class="section-header">
+            <span class="section-tag">02 — AI Chat</span>
+            <h2 class="section-title">Chat with <span class="gradient-text">intelligence</span></h2>
+            <p class="section-desc">Ask anything — get thoughtful, detailed responses powered by Gemini.</p>
+        </div>
+
+        <div class="tool-card chat-card" id="chat-tool-card">
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-welcome">
+                    <div class="welcome-avatar">✦</div>
+                    <p>Hello! I'm PixelMind AI. Ask me anything and I'll do my best to help.</p>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <input type="text" id="chat-prompt" class="tool-input" placeholder="Type your message..." autocomplete="off" onkeydown="if(event.key==='Enter')sendChat()">
+                    <button class="input-btn" id="send-chat-btn" onclick="sendChat()">
+                        <span class="btn-text">Send</span>
+                        <span class="btn-loader" id="chat-loader"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recipe Section -->
+    <section id="recipe-section" class="section">
+        <div class="section-header">
+            <span class="section-tag">03 — Recipe Creator</span>
+            <h2 class="section-title">Cook with <span class="gradient-text">AI magic</span></h2>
+            <p class="section-desc">Give your ingredients, pick a cuisine, and let AI craft the perfect recipe.</p>
+        </div>
+
+        <div class="tool-card" id="recipe-tool-card">
+            <div class="tool-input-group recipe-inputs">
+                <div class="input-wrapper">
+                    <input type="text" id="recipe-ingredients" class="tool-input" placeholder="Enter ingredients (e.g., chicken, rice, garlic)" autocomplete="off">
+                </div>
+                <div class="input-row">
+                    <div class="option-group flex-1">
+                        <label class="option-label">Cuisine</label>
+                        <select id="recipe-cuisine" class="option-select">
+                            <option value="any">Any Cuisine</option>
+                            <option value="italian">Italian</option>
+                            <option value="indian">Indian</option>
+                            <option value="chinese">Chinese</option>
+                            <option value="mexican">Mexican</option>
+                            <option value="japanese">Japanese</option>
+                            <option value="thai">Thai</option>
+                            <option value="french">French</option>
+                            <option value="mediterranean">Mediterranean</option>
+                        </select>
+                    </div>
+                    <div class="option-group flex-1">
+                        <label class="option-label">Dietary</label>
+                        <select id="recipe-dietary" class="option-select">
+                            <option value="">None</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten-Free</option>
+                            <option value="keto">Keto</option>
+                            <option value="halal">Halal</option>
+                        </select>
+                    </div>
+                    <button class="input-btn recipe-btn" id="create-recipe-btn" onclick="createRecipe()">
+                        <span class="btn-text">Create Recipe</span>
+                        <span class="btn-loader" id="recipe-loader"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="recipe-result" id="recipe-result">
+                <div class="empty-state" id="recipe-empty">
+                    <div class="empty-icon">🍽️</div>
+                    <p>Your AI-crafted recipe will appear here</p>
+                    <span class="empty-hint">Try: "chicken, garlic, lemon, rosemary" with Italian cuisine</span>
+                </div>
+                <div class="recipe-display" id="recipe-display" style="display:none;">
+                    <div class="recipe-content" id="recipe-content"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">PixelMind<span class="logo-accent">AI</span></span>
+            </div>
+            <p class="footer-copy">Built with Spring AI & Google Gemini</p>
+            <div class="footer-links">
+                <a href="https://github.com/prakhardixit9793/PixelMind-AI" target="_blank" class="footer-link" id="github-link">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

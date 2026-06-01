@@ -67,7 +67,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Fixes global preflight options checks across all endpoints
+@CrossOrigin(origins = "*")
 public class GenAIController {
 
     private final ChatService chatService;
