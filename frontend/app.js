@@ -5,7 +5,7 @@
 // -------------------------------------------------------------------
 // Configuration — Update API_BASE to your Render backend URL
 // -------------------------------------------------------------------
-const API_BASE = "https://pixelmind-ai.onrender.com";
+const API_BASE = "https://pixelmind-ai-1.onrender.com";
 
 // -------------------------------------------------------------------
 // Navigation — Active tab highlighting on scroll
