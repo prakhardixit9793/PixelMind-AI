@@ -1,15 +1,5 @@
-/* =============================================
-   PixelMind AI — Application Logic
-   ============================================= */
-
-// -------------------------------------------------------------------
-// Configuration — Update API_BASE to your Render backend URL
-// -------------------------------------------------------------------
 const API_BASE = "https://pixelmind-ai-1.onrender.com";
 
-// -------------------------------------------------------------------
-// Navigation — Active tab highlighting on scroll
-// -------------------------------------------------------------------
 const sections = document.querySelectorAll(".section");
 const navLinks = document.querySelectorAll(".nav-link");
 
@@ -36,9 +26,6 @@ function scrollToSection(id) {
     document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 }
 
-// -------------------------------------------------------------------
-// Toast Notifications
-// -------------------------------------------------------------------
 function showToast(message, type = "error") {
     const existing = document.querySelector(".toast");
     if (existing) existing.remove();
@@ -56,9 +43,6 @@ function showToast(message, type = "error") {
     }, 4000);
 }
 
-// -------------------------------------------------------------------
-// Loading State Helpers
-// -------------------------------------------------------------------
 function setLoading(btnId, loaderId, loading) {
     const btn = document.getElementById(btnId);
     const loader = document.getElementById(loaderId);
@@ -75,76 +59,6 @@ function setLoading(btnId, loaderId, loading) {
     }
 }
 
-// -------------------------------------------------------------------
-// Image Generation
-// -------------------------------------------------------------------
-async function generateImage() {
-    const prompt = document.getElementById("image-prompt").value.trim();
-    if (!prompt) {
-        showToast("Please enter a prompt to generate an image.");
-        return;
-    }
-
-    const size = document.getElementById("image-size").value;
-
-    setLoading("generate-image-btn", "image-loader", true);
-
-    try {
-        const params = new URLSearchParams({
-            prompt: prompt,
-            n: 1,
-            width: size,
-            height: size,
-        });
-
-        const response = await fetch(`${API_BASE}/generate-image?${params}`);
-
-        if (!response.ok) {
-            throw new Error(`Server returned ${response.status}`);
-        }
-
-        const blob = await response.blob();
-        const imageUrl = URL.createObjectURL(blob);
-
-        document.getElementById("image-empty").style.display = "none";
-        const display = document.getElementById("image-display");
-        display.style.display = "block";
-
-        const img = document.getElementById("generated-image");
-        img.src = imageUrl;
-        img.alt = prompt;
-
-        showToast("Image generated successfully!", "success");
-    } catch (err) {
-        console.error("Image generation error:", err);
-        showToast(
-            "Failed to generate image. Make sure the backend is running."
-        );
-    } finally {
-        setLoading("generate-image-btn", "image-loader", false);
-    }
-}
-
-// -------------------------------------------------------------------
-// Download Image
-// -------------------------------------------------------------------
-function downloadImage() {
-    const img = document.getElementById("generated-image");
-    if (!img.src) return;
-
-    const a = document.createElement("a");
-    a.href = img.src;
-    a.download = "pixelmind-ai-" + Date.now() + ".png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-
-    showToast("Image downloaded!", "success");
-}
-
-// -------------------------------------------------------------------
-// AI Chat
-// -------------------------------------------------------------------
 async function sendChat() {
     const input = document.getElementById("chat-prompt");
     const prompt = input.value.trim();
@@ -152,7 +66,6 @@ async function sendChat() {
 
     const container = document.getElementById("chat-messages");
 
-    // Add user message
     const userMsg = document.createElement("div");
     userMsg.className = "chat-msg user";
     userMsg.innerHTML = `
@@ -164,7 +77,6 @@ async function sendChat() {
     input.value = "";
     container.scrollTop = container.scrollHeight;
 
-    // Add thinking indicator
     const thinkingMsg = document.createElement("div");
     thinkingMsg.className = "chat-msg ai";
     thinkingMsg.id = "thinking-msg";
@@ -187,11 +99,9 @@ async function sendChat() {
 
         const text = await response.text();
 
-        // Remove thinking indicator
         const thinking = document.getElementById("thinking-msg");
         if (thinking) thinking.remove();
 
-        // Add AI response
         const aiMsg = document.createElement("div");
         aiMsg.className = "chat-msg ai";
         aiMsg.innerHTML = `
@@ -211,9 +121,6 @@ async function sendChat() {
     }
 }
 
-// -------------------------------------------------------------------
-// Recipe Creator
-// -------------------------------------------------------------------
 async function createRecipe() {
     const ingredients = document
         .getElementById("recipe-ingredients")
@@ -257,18 +164,12 @@ async function createRecipe() {
     }
 }
 
-// -------------------------------------------------------------------
-// Utility
-// -------------------------------------------------------------------
 function escapeHtml(str) {
     const div = document.createElement("div");
     div.textContent = str;
     return div.innerHTML;
 }
 
-// -------------------------------------------------------------------
-// Intersection Observer for scroll animations
-// -------------------------------------------------------------------
 const observerOptions = {
     threshold: 0.1,
     rootMargin: "0px 0px -50px 0px",
@@ -290,14 +191,6 @@ document.querySelectorAll(".tool-card").forEach((card) => {
     observer.observe(card);
 });
 
-// Allow Enter key on image prompt
-document
-    .getElementById("image-prompt")
-    .addEventListener("keydown", function (e) {
-        if (e.key === "Enter") generateImage();
-    });
-
-// Allow Enter key on recipe ingredients
 document
     .getElementById("recipe-ingredients")
     .addEventListener("keydown", function (e) {
